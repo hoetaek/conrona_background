@@ -13,8 +13,8 @@ dt_string = now.strftime("%d/%B/%Y, %H:%M:%S")
 with open('Yayy.txt','w') as f:
     f.write(dt_string)
 
-current_paper = "windows.PNG"
-windows10 = Image.open(current_paper)
+basic_paper = "windows.PNG"
+windows10 = Image.open(basic_paper)
 img_path = "screenshot.png"
 def save_corona_screenshot():
     options = webdriver.ChromeOptions()
@@ -44,7 +44,6 @@ def make_wallpaper():
 
     area = (width // 3, 0, width // 3 * 2, height)
     cropped = corona_screen.crop(area)
-    cropped.save('cropped.png')
 
     area = (1920 - width // 3, 0, 1920, height)
     windows10.paste(cropped, area)
