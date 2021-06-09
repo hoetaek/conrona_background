@@ -127,7 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# my files
 Yayy.txt
+anotherlog.txt
+log.txt
+
 new_wallpaper.png
+vac_screenshot.png
 cropped.png
 screenshot.png
+windows.png
