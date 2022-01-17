@@ -1,4 +1,3 @@
-from wallpaper import get_wallpaper, set_wallpaper
 from PIL import Image, ImageDraw, ImageFont
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -9,8 +8,7 @@ import schedule
 import time
 import os
 import logging
-
-
+import ctypes
  
 from datetime import datetime
 now = datetime.now()
@@ -22,25 +20,26 @@ basic_paper = "windows.PNG"
 windows10 = Image.open(basic_paper)
 corona_img_path = "screenshot.png"
 vaccine_img_path = "vac_screenshot.png"
+
+
 def save_corona_screenshot(driver, target_url, img_path, button=True):
     driver.get(target_url)
-    if button:
-        close_buttons = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '#root-portal > div > button')))
-        time.sleep(2)
-        visible_buttons = [close_button for close_button in close_buttons if close_button.is_displayed()]
-        visible_buttons_len = len(visible_buttons)
+    # if button:
+    #     close_buttons = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '#root-portal > div > button')))
+    #     time.sleep(2)
+    #     visible_buttons = [close_button for close_button in close_buttons if close_button.is_displayed()]
+    #     visible_buttons_len = len(visible_buttons)
 
-        for i in range(visible_buttons_len):
-            print(str(i) + "try")
-            try:
-                visible_buttons[visible_buttons_len - 1 - i].click()
-            except Exception as e:
-                print(e)
-                pass
+    #     for i in range(visible_buttons_len):
+    #         print(str(i) + "try")
+    #         try:
+    #             visible_buttons[visible_buttons_len - 1 - i].click()
+    #         except Exception as e:
+    #             print(e)
+                # pass
     
     time.sleep(2)
-    if not 'error' in driver.page_source:
-        driver.save_screenshot(img_path)
+    driver.save_screenshot(img_path)
 
 def crop_img(img_path):
     corona_screen = Image.open(img_path)
@@ -70,9 +69,10 @@ def make_wallpaper():
     dt_string = now.strftime("%H:%M:%S")
     draw.text((900,30), "마지막 업데이트 - " + dt_string, font=fnt, fill=(0,0,0))
 
-
+    path = 'C:\\Users\\내무반pc\Desktop\\corona_background\\new_wallpaper.png'
+    SPI_SETDESKWALLPAPER = 20
     windows10.save(r'new_wallpaper.png')
-    set_wallpaper(r'new_wallpaper.png')
+    ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, path, 3)
 
 
 def job():
